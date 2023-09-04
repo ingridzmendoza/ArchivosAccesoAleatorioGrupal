@@ -1,4 +1,5 @@
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -41,10 +42,24 @@ public class VendorCSVFile {
         } catch (IOException ex) {
             Logger.getLogger(VendorCSVFile.class.getName()).log(Level.SEVERE, null, ex);
         }
-
         return x;
     }
-
+    public String findZona(String zona) throws IOException {
+        String zoneWanted = zona.toUpperCase();
+        String temp = ""; //empieza vacia
+        String record = null;
+        try {
+            BufferedReader in = new BufferedReader(new FileReader(fileName));
+            while ((record = in.readLine()) != null) {
+                if (record.toUpperCase().contains(zoneWanted)) {
+                    temp =  temp + record + "\n";
+                }
+            }
+        }catch (IOException exception){
+            exception.printStackTrace();
+        }
+        return temp;
+    }
     private Date parseDOB(String d) throws ParseException {
         int len = d.length();
         Date date = null;
